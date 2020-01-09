@@ -15,7 +15,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MyFirebaseMessagingService extends FirebaseMessagingService     {
+public class FirebaseRemoteMessagingService extends FirebaseMessagingService     {
     private static final String DATA = "data";
     private static final String IMAGE_NAME = "pushnotification_icon";
     private static final String IMAGE_TYPE = "drawable";
