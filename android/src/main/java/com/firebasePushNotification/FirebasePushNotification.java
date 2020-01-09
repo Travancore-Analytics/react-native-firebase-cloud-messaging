@@ -1,7 +1,10 @@
 package com.firebasePushNotification;
 
-import android.app.Activity;
+import android.util.Log;
 
+import androidx.core.app.NotificationManagerCompat;
+
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -58,6 +61,11 @@ public class FirebasePushNotification extends ReactContextBaseJavaModule {
                         }
                     }
                 });
+    }
+
+    @ReactMethod
+    public void checkPermissionForPushNotification(Callback callback) {
+        callback.invoke(null,NotificationManagerCompat.from(getCurrentActivity()).areNotificationsEnabled());
     }
 
     @Override

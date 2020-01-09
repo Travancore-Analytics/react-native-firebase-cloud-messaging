@@ -19,5 +19,8 @@ export default {
 			(event) => {        
         callback(event);
 			});
+  },
+  checkPermissionForPushNotification(callback) {
+    return FirebasePushNotification.checkPermissionForPushNotification(callback);
   }
 };

@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -16,8 +15,11 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MyFirebaseMessagingService extends FirebaseMessagingService {
+public class MyFirebaseMessagingService extends FirebaseMessagingService     {
     private static final String DATA = "data";
+    private static final String IMAGE_NAME = "pushnotification_icon";
+    private static final String IMAGE_TYPE = "drawable";
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Map<String, String> notificationData = remoteMessage.getData();
@@ -43,7 +45,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
                     .build();
 
-            channel = new NotificationChannel("222", "my_channel", NotificationManager.IMPORTANCE_HIGH);
+            channel = new NotificationChannel("222", "channel", NotificationManager.IMPORTANCE_HIGH);
             nm.createNotificationChannel(channel);
         }
 
@@ -55,7 +57,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .setContentText(body)
                         .setContentIntent(pendingIntent)
                 ;
-        int smallIconResourceId = getResourceId(this,"drawable","pushnotification_icon");
+        int smallIconResourceId = getResourceId(this,IMAGE_TYPE,IMAGE_NAME);
         if (smallIconResourceId != 0) {
             builder = builder.setSmallIcon(smallIconResourceId);
         }

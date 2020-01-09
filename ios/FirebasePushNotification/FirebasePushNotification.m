@@ -1,10 +1,8 @@
-//  Created by react-native-create-bridge
 
 #import <UIKit/UIKit.h>
 #import <UIKit/UIApplication.h>
 #import "FirebasePushNotification.h"
 #import <Firebase/Firebase.h>
-// import RCTBridge
 #if __has_include(<React/RCTBridge.h>)
 #import <React/RCTBridge.h>
 #elif __has_include(“RCTBridge.h”)
@@ -13,7 +11,6 @@
 #import “React/RCTBridge.h” // Required when used as a Pod in a Swift project
 #endif
 
-// import RCTEventDispatcher
 #if __has_include(<React/RCTEventDispatcher.h>)
 #import <React/RCTEventDispatcher.h>
 #elif __has_include(“RCTEventDispatcher.h”)
@@ -33,9 +30,6 @@
 @implementation FirebasePushNotification
 @synthesize bridge = _bridge;
 
-
-// Export a native module
-// https://facebook.github.io/react-native/docs/native-modules-ios.html
 RCT_EXPORT_MODULE();
 
 + (id)allocWithZone:(NSZone *)zone {
@@ -56,7 +50,6 @@ RCT_EXPORT_METHOD(registerRemoteNotification:(RCTPromiseResolveBlock)resolve rej
         }else {
             if ([UNUserNotificationCenter class] != nil) {
                 // iOS 10 or later
-                // For iOS 10 display notification (sent via APNS)
                 [UNUserNotificationCenter currentNotificationCenter].delegate = self;
                 UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert |
                 UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
@@ -80,16 +73,44 @@ RCT_EXPORT_METHOD(subscribeToTopic:(NSString*) topic
                   resolve:(RCTPromiseResolveBlock) resolve
                   reject:(RCTPromiseRejectBlock) reject){
     
-    [[FIRMessaging messaging] subscribeToTopic:topic];
-    resolve(nil);
+    [[FIRMessaging messaging] subscribeToTopic:topic completion:^(NSError * _Nullable error) {
+        if (error == nil){
+            resolve(nil);
+        }else{
+            reject(@"messaging/subscribe_error", @"Failed to subscribe To Topic", error);
+        }
+    }];
 }
 
 RCT_EXPORT_METHOD(unsubscribeFromTopic: (NSString*) topic
                   resolve:(RCTPromiseResolveBlock) resolve
                   reject:(RCTPromiseRejectBlock) reject) {
-    [[FIRMessaging messaging] unsubscribeFromTopic:topic];
-    resolve(nil);
+    [[FIRMessaging messaging] unsubscribeFromTopic:topic completion:^(NSError * _Nullable error) {
+        if (error == nil){
+            resolve(nil);
+        }else{
+            reject(@"messaging/unsubscribe_error", @"Failed to unsubscribe To Topic", error);
+        }
+    }];
 }
+
+RCT_EXPORT_METHOD(checkPermissionForPushNotification:(RCTResponseSenderBlock)callback) {
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings *settings){
+        switch (settings.authorizationStatus) {
+            case UNAuthorizationStatusAuthorized:
+                callback(@[[NSNull null],@YES]);
+                break;
+            case UNAuthorizationStatusDenied:UNAuthorizationStatusNotDetermined:
+                callback(@[[NSNull null],@NO]);
+                break;
+            default:
+                callback(@[[NSNull null],@NO]);
+                break;
+        }
+    }];
+}
+
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
     UNNotificationPresentationOptions options = UNAuthorizationOptionAlert |
     UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
@@ -102,7 +123,7 @@ RCT_EXPORT_METHOD(unsubscribeFromTopic: (NSString*) topic
 
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[NOTIFICATION_EVENT];
+    return @[@"notification_on_receive"];
 }
 
 - (NSDictionary *)constantsToExport
