@@ -1,0 +1,25 @@
+{
+    "name": "react-native-firebase-cloud-messaging",
+    "version": "1.0.0",
+    "description": "Rect native module for Firebase cloud messaging",
+    "files": [
+        "android",
+        "ios",
+        "index.js",
+        "react-native-firebase-cloud-messaging.podspec"
+    ],
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Travancore-Analytics/react-native-firebase-cloud-messaging.git"
+    },
+    "author": "Travancore Analytics",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Travancore-Analytics/react-native-firebase-cloud-messaging/issues"
+    },
+    "homepage": "https://github.com/Travancore-Analytics/react-native-firebase-cloud-messaging#readm"
+}
