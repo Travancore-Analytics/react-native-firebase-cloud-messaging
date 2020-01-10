@@ -118,7 +118,9 @@ RCT_EXPORT_METHOD(checkPermissionForPushNotification:(RCTResponseSenderBlock)cal
 }
 
 - (void) sendEvent:(NSDictionary *)userInfo {
-    [self sendEventWithName:NOTIFICATION_EVENT body:userInfo];
+    if(super.bridge != nil){
+        [self sendEventWithName:NOTIFICATION_EVENT body:userInfo];
+    }
 }
 
 - (NSArray<NSString *> *)supportedEvents

@@ -19,6 +19,6 @@
 #endif
 #import <UserNotifications/UserNotifications.h>
 
-@interface FirebasePushNotification : RCTEventEmitter <UIApplicationDelegate,RCTBridgeModule, UNUserNotificationCenterDelegate>
-
+@interface FirebasePushNotification : RCTEventEmitter <RCTBridgeModule, UNUserNotificationCenterDelegate>
+- (void) sendEvent:(NSDictionary *)userInfo;
 @end
