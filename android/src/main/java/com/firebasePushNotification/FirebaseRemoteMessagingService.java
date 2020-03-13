@@ -28,7 +28,7 @@ public class FirebaseRemoteMessagingService extends FirebaseMessagingService    
         String title = remoteMessage.getNotification().getTitle();
 
         Intent intent = new Intent(this, getMainActivityClass(this));
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         intent.putExtra(DATA,hashMapNotificationData);
 
