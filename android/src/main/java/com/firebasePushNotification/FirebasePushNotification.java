@@ -84,7 +84,6 @@ public class FirebasePushNotification extends ReactContextBaseJavaModule {
                         }
 
                         // Get new Instance ID token
-                        String token = task.getResult().getToken();
                         callback.invoke(task.getResult().getToken());
                     }
                 });
