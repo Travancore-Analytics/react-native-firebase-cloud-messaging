@@ -77,7 +77,7 @@ public class FirebasePushNotification extends ReactContextBaseJavaModule {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()) {
-                              callback.invoke(task.getException());
+                              callback.invoke(null,null);
                         } else {
                                 callback.invoke(task.getResult());
                         }
