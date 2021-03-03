@@ -94,6 +94,18 @@ RCT_EXPORT_METHOD(unsubscribeFromTopic: (NSString*) topic
     }];
 }
 
+RCT_EXPORT_METHOD(getToken:(RCTResponseSenderBlock)callback) {
+    NSString *token = [[FIRMessaging messaging] FCMToken];
+    if (token == nil) {
+        NSLog(@"There is no token from firebase");
+        callback(@[[NSNull null]]);
+    }else {
+        NSLog(@"FCM registration token: %@", token);
+        callback(@[token]);
+    }
+}
+
+
 RCT_EXPORT_METHOD(checkPermissionForPushNotification:(RCTResponseSenderBlock)callback) {
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings *settings){

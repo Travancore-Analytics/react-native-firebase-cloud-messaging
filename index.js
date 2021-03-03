@@ -22,5 +22,8 @@ export default {
   },
   checkPermissionForPushNotification(callback) {
     return FirebasePushNotification.checkPermissionForPushNotification(callback);
+  },
+  getToken(callback) {
+    return FirebasePushNotification.getToken(callback);
   }
 };

@@ -33,7 +33,7 @@ android {
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.facebook.react:react-native:+'
-    implementation 'com.google.firebase:firebase-messaging:20.1.0'
+    implementation 'com.google.firebase:firebase-messaging:21.0.1'
 }
 
 allprojects {
