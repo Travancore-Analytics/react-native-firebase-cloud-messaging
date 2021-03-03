@@ -98,6 +98,7 @@ RCT_EXPORT_METHOD(getToken:(RCTResponseSenderBlock)callback) {
     NSString *token = [[FIRMessaging messaging] FCMToken];
     if (token == nil) {
         NSLog(@"There is no token from firebase");
+        callback(@[[NSNull null]]);
     }else {
         NSLog(@"FCM registration token: %@", token);
         callback(@[token]);

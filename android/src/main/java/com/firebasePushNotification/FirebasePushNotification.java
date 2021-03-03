@@ -12,8 +12,6 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import javax.annotation.Nonnull;
@@ -74,17 +72,15 @@ public class FirebasePushNotification extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getToken(final Callback callback) {
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                    public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()) {
-                            Log.w("exception", "getInstanceId failed", task.getException());
-                            return;
+                              callback.invoke(task.getException());
+                        } else {
+                                callback.invoke(task.getResult());
                         }
-
-                        // Get new Instance ID token
-                        callback.invoke(task.getResult().getToken());
                     }
                 });
     }
