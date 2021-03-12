@@ -99,7 +99,6 @@ RCT_EXPORT_METHOD(getToken:(RCTResponseSenderBlock)callback) {
          if (error != nil) {
            NSLog(@"Error getting FCM registration token: %@", error);
            callback(@[[NSNull null]]);
-
          } else {
            NSLog(@"FCM registration token: %@", token);
              callback(@[token]);
